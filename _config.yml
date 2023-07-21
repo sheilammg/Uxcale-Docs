@@ -1,8 +1,12 @@
-title: Just the Docs Template
+title: Dcos uXcale
 description: A starter template for a Jeykll site using the Just the Docs theme!
 theme: just-the-docs
 
-url: https://just-the-docs.github.io
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+github_username:  sheilammg
+repository: sheilammg/Uxcale-Docs
+
 
 aux_links:
   Template Repository: https://github.com/just-the-docs/just-the-docs-template
