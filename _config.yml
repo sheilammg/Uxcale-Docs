@@ -10,3 +10,9 @@ repository: sheilammg/Uxcale-Docs
 aux_links:
   "Inditex Tech on GitHub":
     - "//github.com/sheilammg"
+
+
+# Build settings
+# theme: just-the-docs
+plugins:
+  - jekyll-feed
