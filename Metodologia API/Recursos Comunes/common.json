@@ -1,0 +1,442 @@
+{
+  "swagger" : "2.0",
+  "info": {
+    "description": "Common data for Axpe Company APIs",
+    "version": "0.0.0",
+    "title": "Common data for Axpe Company APIs",
+    "termsOfService": "https://www.api.axpe.com",
+    "contact": {
+      "name": "Axpe",
+      "email": "tecnologia@axpe.com"
+    }
+  },
+  "host": "localhost:3000",
+  "schemes": ["http"],
+  "paths": {},
+  "definitions": {
+    "MoneyAmount": {
+      "type": "object",
+      "description": "Money amount",
+      "required": [
+        "value",
+        "currency"
+      ],
+      "properties": {
+        "value": {
+          "type": "number",
+          "format": "float",
+          "multipleOf": 0.01,
+          "description": "Amount value"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency code in which the amount is expressed. ISO 4217"
+        },
+        "tax_included": {
+          "type": "boolean",
+          "description": "true if the amount includes government taxes",
+          "default": false
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "description": "User's address information",
+      "required": [
+        "formatted"
+      ],
+      "properties": {
+        "formatted": {
+          "type": "string",
+          "description": "Full address, formatted for display"
+        },
+        "street_address": {
+          "type": "string",
+          "description": "Address information"
+        },
+        "postal_code": {
+          "type": "string",
+          "description": "Postal code associated to the address"
+        },
+        "locality": {
+          "type": "string",
+          "description": "City or locality where the user lives"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country name. Format iso3166-1"
+        }
+      }
+    },
+    "IdDocument": {
+      "type": "object",
+      "description": "User legal id document information",
+      "required": [
+        "country",
+        "type",
+        "value"
+      ],
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "Country of issuance of the id_document. Format iso3166-1"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of document (e.g. passport)"
+        },
+        "value": {
+          "type": "string",
+          "description": "Id number associated to the id_document"
+        }
+      }
+    },
+    "QuotaCategory": {
+      "type": "string",
+      "enum": [
+        "general",
+        "promotion",
+        "voucher",
+        "application",
+        "pay_per_use",
+        "transfer",
+        "carryover",
+        "aggregated"
+      ]
+    },
+    "CommonQuota": {
+      "type": "object",
+      "description": "Quota common information",
+      "required": [
+        "id",
+        "name",
+        "categories",
+        "start_date",
+        "max",
+        "consumed",
+        "remaining"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of this quota.\n This is a unique id, i.e.: it's the instantiation for a user of a mobile/landline/internet plan charactericic, voucher, etc."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of this quota.",
+          "x-user-friendly": true
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of this quota.",
+          "x-user-friendly": true
+        },
+        "categories": {
+          "type": "array",
+          "description": "List of categories of a quota. Possible values to categorize a quota.\n - 'general' stands for regular usage quotas.\n - 'promotion' is to be used if the quota is related with some promotion (e.g.: this month you get 1GB extra for free).\n - 'voucher' is related with acquisition of some voucher.\n - 'application' is to be used only for quotas that can only be used with certain application(s), e.g.: WhatsApp or Movistar Play.\n - 'pay_per_use' is special scenario for quotas activated dinamically where user pays depending on the amount consumed.\n - 'transfer' is to be used for quotas created as result of receiving a transfer (so far only data-transfers of Mobile Quotas are considered, see Mobile Data Transfer API).\n - 'carryover' stands for quotas that are created using the remaining amount of a quota that has expired, e.g.: when the customer can consume the remaining quota amount of a cycle in next cycle. These quotas must have, additionally to 'carryover' category, all the categories of the original quota.\n - 'aggregated' is special quota built, based on OB decided criteria, by aggregating other existing quotas. **OBs may not consider 'aggregated' quotas at all.**",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/QuotaCategory"
+          }
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Start time for the application of the quota, in ISO-8601 extended local date format. Time-offset from UTC may be used to match local OB time. For 'aggregated' quotas, it's OB decision wich date to include, as different parts of the aggregation may have different start_dates.",
+          "format": "date-time"
+        },
+        "end_date": {
+          "type": "string",
+          "description": "End time for the application of the quota, in ISO-8601 extended local date format. Time-offset from UTC may be used to match local OB time. Will not appear for quotas that never expire",
+          "format": "date-time"
+        },
+        "renewal_date": {
+          "type": "string",
+          "description": "Time when the quota counter will start again, in ISO-8601 extended local date format. Time-offset from UTC may be used to match local OB time. Will not appear for quotas that never expire nor for quotas that are not renewed. In almost every scenario, this will match the end_date, but it may happen in some OBs (e.g.: in VIVO there are examples) that renewal_date is different (later) than end_date.",
+          "format": "date-time"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether the quota is active or is currently inhibited. This is useful for scenarios where some quotas are not enabled if customer does not meet a pre-requisite (e.g.: perform a TopUp) or where quotas are disabled due to fraud control or service suspension (e.g.: due to unpaid bills)",
+          "default": true
+        },
+        "in_use": {
+          "type": "boolean",
+          "description": "Whether this quota is currently being consumed. This field is used to discriminate, when there is more than one quota with the same characteristics, which data/voice/sms consumption will be deducted in next usage. For example, if customer has 5GB plan, has bought an extra 2GB voucher and also from former cycle has carried 1GB over to current cycle, this flag may indicate which quota will be used next time customer establishes a data consumption. If this field is not included, either the OB does not want to indicate this information to the customer or it's not relevant for this quota."
+        },
+        "max": {
+          "type": "number",
+          "description": "Maximum amount allowed by current quota. -1 is interpreted as there is no limit",
+          "format": "decimal"
+        },
+        "consumed": {
+          "type": "number",
+          "description": "Amount already consumed of current quota by this phone_number/identifier (as identified in the request URL)",
+          "format": "decimal"
+        },
+        "remaining": {
+          "type": "number",
+          "description": "Amount remaining of the quota. -1 when quota is unlimited",
+          "format": "decimal"
+        },
+        "is_shared": {
+          "type": "boolean",
+          "description": "Whether this quota is shared with other lines or not.\n When a quota IS NOT shared, 'consumed + remaining = max' (except for specific case of unlimited quota).\nBut when a quota IS shared, this rule is not necessarily met. This is because max shows the maximum of the quota allowed for this phone_number, and given that quota is shared, max is the total allowed for the quota itself; then consumed refers to the current consumption by this phone_number; finally remaining refers to the amount remaining that can be consumed by this phone_number, but given that other phone-numbers are consuming from the SAME quota, 'max - consumed' may not be equal to remaining. Notice that when several phone-numbers share a quota, quota id is the same for all of them, because it's actually the same counter.",
+          "default": false
+        },
+        "tags": {
+          "type": "array",
+          "description": "List of freely defined strings that tag the quota based on some criteria. Tags should be used carefully and it should be avoided to use tags to carry relevant information of the quota; if that's the case, it should be analyzed if a new field may be defined instead. Example usages of tags:\n - To identify, for 'application' category, which applications are valid for quota usage (e.g.: WhatsApp, Movistar Play, etc.).\n - To match an 'aggregated' quota with the quotas being part of the aggregation.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "product_id": {
+          "type": "string",
+          "description": "Identifier of the Subscribed Product (i.e.: the 'id' of a product returned by Subscribed Products API) for which this quota is instantiated. This optional field may be returned only for certain Quotas when explicit relationship between the Quota and a Subscribed Product needs to be reflected."
+        }
+      }
+    },
+    "QuotaDestination": {
+      "type": "string",
+      "pattern": "^(telefonica|non-telefonica|rural|local|regional|national|EU|international|mobile|landline|any|[A-Z]{2})$"
+    },
+    "QuotaDestinations": {
+      "type": "array",
+      "default": [
+        "national"
+      ],
+      "description": "Destinations for which the quota applies. Multiples values must be understood as logical OR.\n Possible values are restricted to country values indicated in ISO 3166-1 alfa-2 and a list of enumerated values indicating 'telefonica', 'non-telefonica', 'rural', 'local', 'regional', 'national', 'EU', 'international', 'mobile', 'landline', 'any'. For 'aggregated' quotas, every destination of quotas building the aggregated one have to be included.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/QuotaDestination"
+      }
+    },
+    "QuotaTimeBand": {
+      "type": "string",
+      "enum": [
+        "day",
+        "night",
+        "morning",
+        "evening",
+        "weekends",
+        "workdays",
+        "all"
+      ]
+    },
+    "QuotaTimeBands": {
+      "type": "array",
+      "default": [
+        "all"
+      ],
+      "description": "Timebands when the quota applies. Multiples values must be understood as logical OR. For 'aggregated' quotas, every time_band of quotas building the aggregated one have to be included.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/QuotaTimeBand"
+      }
+    },
+    "ApiStatusCheck": {
+      "type": "object",
+      "description": "Object to report each API endpoint and method status.",
+      "required": [
+        "endpoint",
+        "method",
+        "status"
+      ],
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "Endpoint, i.e.: entry in 'paths' section of each API spec"
+        },
+        "method": {
+          "type": "string",
+          "description": "HTTP Method",
+          "enum": [
+            "POST",
+            "GET",
+            "PUT",
+            "DELETE",
+            "PATCH"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the endpoint and method.\n-'OK' indicates that endpoint and method is available.\n- KO indicates that endpoint is implemented but is not available (maintenance or issue in the platform).\n- 'NOT_IMPLEMENTED' indicates that the endpoint and method has not been implemented, because functionality is not applicable in the OB.",
+          "enum": [
+            "OK",
+            "KO",
+            "NOT_IMPLEMENTED"
+          ]
+        }
+      }
+    },
+    "Identifiers": {
+      "type": "array",
+      "description": "List of user identifiers (e.g. 'phone_number') which apply to this resource. Every valid identifier must be included. Identifiers match the ones returned by User Profile API.",
+      "items": {
+        "$ref": "#/definitions/Identifier"
+      }
+    },
+    "Identifier": {
+      "type": "object",
+      "description": "User identifier (e.g. 'phone_number') which applies to this resource. Identifier match the one returned by User Profile API.",
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "description": "Type of identifier. Possible types are those considered in the User Profile API, i.e. 'uid', 'phone_number' and 'email'. Type 'uid' means there are no restrictions on the format of this identifier and it can't be taken as universally unique outside its application domain.",
+          "type": "string"
+        },
+        "id": {
+          "description": "Identifier value. In case of 'phone_number' `type`, 'E164 with +' format must be used.",
+          "type": "string"
+        }
+      }
+    },
+    "ProductPrice": {
+      "type": "object",
+      "description": "Price information",
+      "required": [
+        "description",
+        "type",
+        "amount"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description of the price. User Friendly field."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the price.\n- 'recurring' stands for a price that is applied several times, in period indicated in 'recurring_period' field. For example a 'mobile' product has a monthly price.\n- 'usage' stands for price that depends on consumption, such as a bolt-on that costs 1€ per GB consumed.\n- 'one-off' stands for a price that is charged only once.\n- 'financed' stands for products sold to the user with financing conditions. Details of such financing conditions can be queried using 'Financing Information' API.",
+          "enum": [
+            "recurring",
+            "usage",
+            "one-off",
+            "financed"
+          ]
+        },
+        "recurring_period": {
+          "type": "string",
+          "description": "Period between charge of the price. Applies when type equals recurring.\n Additional to pre-defined values of daily, weekly, monthly, yearly, any indication of number of days or hours is possible, with format {x}-days or {x}-hours (e.g.: 7-days or 24-hours).",
+          "pattern": "^(daily|weekly|monthly|yearly|\\d{1,4}-(days|hours))$"
+        },
+        "period_duration": {
+          "type": "string",
+          "description": "Period for which the product will be subscribed. It means that the product acquired will be subscribed at this price for indicated period. Applies when type equals one-off or usage. For backwards compatibility, in case of recurring prices, recurring_period param is used instead.\n Additional to pre-defined values of day, week, month, year, any indication of number of days, hours, months or years is possible, with format {x}-days, {x}-hours, {x}-months or {x}-years (e.g.: 7-days or 24-hours).",
+          "pattern": "^(day|week|month|year|\\d{1,4}-(days|hours|months|years))$"
+        },
+        "amount": {
+          "description": "Amount for the price. For 'financed' price, it refers to the overall amount financed for the product (capital), does not refer to an instalment. Negative values mean that the amount is in favour for the user.",
+          "$ref": "#/definitions/MoneyAmount"
+        },
+        "tax": {
+          "type": "number",
+          "format": "float",
+          "multipleOf": 0.001,
+          "description": "percentage factor of the taxes applied.\n Whenever it is relevant for an OB and it is possible to be returned by API Server Logic, it MUST be returned."
+        },
+        "is_promotional": {
+          "type": "boolean",
+          "description": "Indicates if a price refers to a promotion. This flag will be ONLY included when it indicates a promotional price (that is this price reflects the amount to pay after all promotions are applied)."
+        },
+        "is_discount": {
+          "type": "boolean",
+          "description": "Indicates if a price refers to a discount. This flag will be ONLY included when it indicates a discount (that is this price reflects an amount to be discounted from the standard price or the promotional price), and the value of `amount` must be negative. This flag is mutually exclusive with `is_promotional`."
+        },
+        "valid_since": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date time since this price started to be applied or will start to be applied, in ISO-8601 extended local date format. Time-offset from UTC may be used to match local OB time."
+        },
+        "valid_until": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date time until this price will be or until it was applied, in ISO-8601 extended local date format. Time-offset from UTC may be used to match local OB time. `valid_until` and `valid_since` are specially useful in products that have first a promotional price (e.g.: for 3 months) and then a regular price."
+        }
+      }
+    }
+  },
+  "parameters": {
+    "x-correlator": {
+      "in": "header",
+      "name": "x-correlator",
+      "type": "string",
+      "required": false,
+      "description": "Correlation id for the different services"
+    },
+    "x-4p-channel-id": {
+      "in": "header",
+      "name": "x-4p-channel-id",
+      "type": "string",
+      "required": false,
+      "description": "Identifier of the end user channel (e.g. online portal, OB's app, etc) that triggered this request"
+    },
+    "ID": {
+      "in": "path",
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Resource identifier"
+    },
+    "Page": {
+      "name": "page",
+      "in": "query",
+      "description": "Requested page number for pagination purpose. If not included, page 1 is returned.",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "default": 1
+    },
+    "PerPage": {
+      "name": "per_page",
+      "in": "query",
+      "description": "Number of element per page. If not included, a default number of 100 elements per page are returned.",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "default": 100
+    },
+    "QuotaCategories": {
+      "name": "categories",
+      "description": "List of wanted categories separated by commas.",
+      "in": "query",
+      "required": false,
+      "type": "array",
+      "collectionFormat": "csv",
+      "items": {
+        "type": "string",
+        "enum": [
+          "general",
+          "promotion",
+          "voucher",
+          "application",
+          "pay_per_use",
+          "transfer",
+          "aggregated",
+          "carryover"
+        ]
+      }
+    },
+    "IdentifierId": {
+      "name": "identifier.id",
+      "in": "query",
+      "description": "Identifier value by which the API response will be filtered. It must be used along with 'identifier.type' parameter.\n In case of 'phone_number' type, 'E164 with +' format must be used.",
+      "required": false,
+      "type": "string"
+    },
+    "IdentifierType": {
+      "name": "identifier.type",
+      "in": "query",
+      "description": "Identifier type by which the API response will be filtered.",
+      "required": false,
+      "type": "string",
+      "enum": [
+        "phone_number",
+        "email",
+        "uid"
+      ]
+    }
+  }
+}
