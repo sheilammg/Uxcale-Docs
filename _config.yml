@@ -8,5 +8,7 @@ github_username:  sheilammg
 repository: sheilammg/Uxcale-Docs
 
 
+
 aux_links:
-  Template Repository: https://github.com/just-the-docs/just-the-docs-template
+  "Inditex Tech on GitHub":
+    - "//github.com/sheilammg"
