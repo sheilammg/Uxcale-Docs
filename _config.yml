@@ -16,3 +16,8 @@ aux_links:
 # theme: just-the-docs
 plugins:
   - jekyll-feed
+
+# Remote settings
+remote_theme: pmarsceill/just-the-docs
+
+permalink: pretty
