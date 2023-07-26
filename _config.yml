@@ -92,7 +92,7 @@ heading_anchors: true
 
 # Navigation structure
 layaout: default 
-title: UI Components
+title: Home
 nav_orders: 2
 has_children: true
 
