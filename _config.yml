@@ -90,6 +90,11 @@ aux_links_new_tab: false
 heading_anchors: true
 
 
+# Navigation structure
+layaout: default 
+title: UI Components
+nav_orders: 2
+has_children: true
 
 # Footer content
 # appears at the bottom of every page's main content
