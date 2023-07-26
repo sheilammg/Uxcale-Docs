@@ -7,11 +7,6 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: sheilammg
 repository: sheilammg/Uxcale-Docs
 
-aux_links:
-  "Inditex Tech on GitHub":
-    - "//github.com/sheilammg"
-
-
 # Build settings
 # theme: just-the-docs
 plugins:
@@ -21,3 +16,10 @@ plugins:
 remote_theme: pmarsceill/just-the-docs
 
 permalink: pretty
+
+aux_links:
+  "Inditex Tech on GitHub":
+    - "//github.com/sheilammg"
+    
+# Makes Aux links open in a new tab. Default is false
+aux_links_new_tab: false
