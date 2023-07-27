@@ -149,7 +149,7 @@ callouts:
 collections:
   # Define a collection named "tests", its documents reside in the "_tests" directory
   Def_Ecosistema:
-    permalink: "/:collection/:path/"
+    permalink: "/docs/_Def_Ecosistema"
     output: true
   Doc_Tecnica:
     permalink: "/:collection/:path/"
