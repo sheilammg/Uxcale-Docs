@@ -1,4 +1,9 @@
 title: Definicion Ecosistema
 theme: just-the-docs
+
+plugins:
+  - jekyll-default-layout
+  
 layout: minimal
 
+url: https://sheilammg/Uxcale-Docs/edit/main/docs/Definición%20Ecosistema
