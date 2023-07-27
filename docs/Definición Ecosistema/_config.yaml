@@ -4,7 +4,7 @@ theme: just-the-docs
 plugins:
   - jekyll-default-layout
   
-layout: minimal
+layout: default
 nav_order: 3
 has_children: true
 url: https://sheilammg/Uxcale-Docs/edit/main/docs/Definición%20Ecosistema
