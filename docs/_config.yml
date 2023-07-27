@@ -79,7 +79,7 @@ search:
 # Aux links for the upper right navigation
 aux_links:
   "Uxcale-Docs on GitHub":
-    - "//github.com/sheilammg"
+    - "//github.com/sheilammg/Uxcale-Docs"
 
 # Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: false
@@ -95,7 +95,7 @@ heading_anchors: true
 #layaout: default 
 #title: Home
 #nav_orders: 2
-#has_children: true
+has_children: true
 
 # Footer content
 # appears at the bottom of every page's main content
