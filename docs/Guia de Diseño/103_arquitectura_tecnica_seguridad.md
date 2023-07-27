@@ -1,3 +1,0 @@
-
-
-DEFINIR SECURIZACIÓN API (OAuth 2.0, jwt, ...)
