@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: API MANAGERS
 nav_order: 1
 ---

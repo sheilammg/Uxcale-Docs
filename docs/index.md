@@ -7,10 +7,6 @@ description: The uXcale Docs repository.
 has_children: true
 ---
 
-
-
----
-
  **Uxcale Docs** es un repositorio en el que se almacenan todos los documentos relacionados con la metodología de la empresa.
 {: .mb-7}
 
