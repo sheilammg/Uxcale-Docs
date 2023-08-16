@@ -18,7 +18,7 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  sheilammg
 repository: sheilammg/Uxcale-Docs
 # Build settings
-theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs@v0.5.2
 
 plugins:
   - jekyll-feed
