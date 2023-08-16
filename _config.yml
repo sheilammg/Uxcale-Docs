@@ -24,7 +24,7 @@ plugins:
   - jekyll-feed
 
 # Remote settings
-remote_theme: pmarsceill/just-the-docs
+#remote_theme: pmarsceill/just-the-docs
 
 permalink: pretty
 
