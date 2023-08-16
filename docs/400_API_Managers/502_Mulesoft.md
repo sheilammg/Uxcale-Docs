@@ -1,8 +1,9 @@
 ---
 layout: default
 title: Mulesoft
-parent: API_Managers
+parent: 400 API Managers
 nav_order: 1
+has_children: true
 ---
 
 
