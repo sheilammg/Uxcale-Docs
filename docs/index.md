@@ -4,9 +4,17 @@ title: Home
 permalink: /
 nav_order: 1
 description: The uXcale Docs repository.
-has_children: true
 ---
+# Optimize your APIs with the **API Scoring Suite**
+{: .fs-9 }
 
+This open-source API-First-based Scoring service evaluates your APIs according to a set of rules that the user can customize.
+{: .fs-6 .fw-300 }
+
+[Get started now](#get-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[View it on GitHub](/github-repositories){: .btn .fs-5 .mb-4 .mb-md-0 }
+
+---
  **Uxcale Docs** es un repositorio en el que se almacenan todos los documentos relacionados con la metodología de la empresa.
 {: .mb-7}
 
