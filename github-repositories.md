@@ -1,13 +1,13 @@
 ---
 layout: page
-title: API Scoring Suite on GitHub
-nav_order: 4
+title: API MANAGERS
+nav_order: 1
 ---
 <div class="d-flex">
     <div>
         <p>You can find the API Scoring Suite distributed in two repositories:</p>
         <ul>
-            <li><a href="https://github.com/sheilammg/Uxcale-Docs/400_API_Managers" target="_blank">API Managers</a>.</li>
+            <li><a href="https://github.com/sheilammg/Uxcale-Docs/docs/400_API_Managers" target="_blank">API Managers</a>.</li>
         </ul>
     </div>
     <div>
