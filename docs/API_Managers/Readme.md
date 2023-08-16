@@ -1,7 +1,7 @@
 ---
 layout: default
 title: API Managers Productus
-parent: 400 API Managers
+parent: API Managers
 nav_order: 2
 ---
 
