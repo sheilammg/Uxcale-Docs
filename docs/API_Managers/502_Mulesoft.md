@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Mulesoft
-parent: API Managers
+parent: API MANAGERS
 nav_order: 1
 ---
 
